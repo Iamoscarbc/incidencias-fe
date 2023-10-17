@@ -20,7 +20,8 @@
   
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, IonCardHeader, IonCardContent, IonButtons, IonBackButton } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, IonCardHeader, IonCardContent, IonButtons, IonBackButton} from '@ionic/vue';
+import { add } from 'ionicons/icons';
 export default defineComponent({
   components: {
     IonPage,
@@ -35,6 +36,9 @@ export default defineComponent({
     IonButtons,
     IonBackButton
   },
+  setup() {
+    return { add };
+  }
 })
 </script>
   

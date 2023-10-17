@@ -20,14 +20,20 @@
           <Timeline :steps="a.timeline"/>
         </ion-card-content>
       </ion-card>
+      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+        <ion-fab-button>
+          <ion-icon :icon="add"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, IonCardHeader, IonCardContent } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, IonCardHeader, IonCardContent, IonIcon, IonFabButton, IonFab  } from '@ionic/vue';
 import Timeline from '@/components/Timeline.vue';
+import { add } from 'ionicons/icons';
 import { useRouter } from 'vue-router';
 export default defineComponent({
   components: {
@@ -40,7 +46,10 @@ export default defineComponent({
     IonCard,
     IonCardTitle,
     IonCardHeader,
-    IonCardContent
+    IonCardContent,
+    IonIcon,
+    IonFabButton,
+    IonFab
   },
   setup() {
     const router = useRouter();
@@ -107,7 +116,8 @@ export default defineComponent({
 
     return {
       incidencias,
-      redirectDetail
+      redirectDetail,
+      add
     }
   }
   // Resto del código de tu vista
