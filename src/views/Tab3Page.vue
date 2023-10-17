@@ -28,7 +28,7 @@
           <ion-item-option color="danger" @click="openDeleteAlert(a.id)">Eliminar</ion-item-option>
         </ion-item-options>
       </ion-item-sliding>
-      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab slot="fixed" vertical="bottom" horizontal="end" @click="redirectAddUser()">
         <ion-fab-button>
           <ion-icon :icon="add"></ion-icon>
         </ion-fab-button>
@@ -103,8 +103,11 @@ export default defineComponent({
 
     const redirectEditUser = (id: any) => {
       router.push({ name: 'EditarUsuario', params: { id: id } })
-    };
+    }
 
+    const redirectAddUser = () => {
+      router.push({ name: 'AgregarUsuario'})
+    }
     const openDeleteAlert = async (id: any) => {
       isOpen.value = true
     }
@@ -124,6 +127,7 @@ export default defineComponent({
       usuarios,
       isOpen,
       alertButtons,
+      redirectAddUser,
       redirectEditUser,
       openDeleteAlert,
       logResult

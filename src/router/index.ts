@@ -38,9 +38,19 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: '/incidencia/:id',
+    path: '/incidence/:id',
     name: 'DetalleIncidencia',
     component: () => import('@/views/IncidenciaPage.vue')
+  },
+  {
+    path: '/incidence/add',
+    name: 'AgregarIncidencia',
+    component: () => import('@/views/AddIncidence.vue')
+  },
+  {
+    path: '/user/add',
+    name: 'AgregarUsuario',
+    component: () => import('@/views/AddUser.vue')
   },
   {
     path: '/user/edit/:id',

@@ -20,7 +20,7 @@
           <Timeline :steps="a.timeline"/>
         </ion-card-content>
       </ion-card>
-      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab slot="fixed" vertical="bottom" horizontal="end" @click="redirectAdd()">
         <ion-fab-button>
           <ion-icon :icon="add"></ion-icon>
         </ion-fab-button>
@@ -114,9 +114,14 @@ export default defineComponent({
       router.push({ name: 'DetalleIncidencia', params: { id: id } })
     };
 
+    const redirectAdd = () => {
+      router.push({ name: 'AgregarIncidencia'})
+    }
+
     return {
       incidencias,
       redirectDetail,
+      redirectAdd,
       add
     }
   }
