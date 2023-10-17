@@ -23,9 +23,13 @@ import '@ionic/vue/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
+import VueApexCharts from "vue3-apexcharts";
+
 const app = createApp(App)
   .use(IonicVue)
   .use(router);
+
+app.use(VueApexCharts);
   
 router.isReady().then(() => {
   app.mount('#app');
