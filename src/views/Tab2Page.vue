@@ -12,8 +12,8 @@
         </ion-toolbar>
       </ion-header>
       <ion-datetime-button datetime="datetime"></ion-datetime-button>
-      <ion-modal :keep-contents-mounted="true">
-        <ion-datetime id="datetime" presentation="month-year" :show-default-buttons="true" max="2023-10-16" done-text="Filtrar" cancel-text="Cancelar"></ion-datetime>
+      <ion-modal id="modal-datetime" :keep-contents-mounted="true">
+        <ion-datetime id="datetime" color="primary" presentation="month-year" :show-default-buttons="true" min="2022-12-31" max="2023-10-16" done-text="Filtrar" cancel-text="Cancelar"></ion-datetime>
       </ion-modal>
       <apexchart type="bar" :options="graphicData.chartOptions" :series="graphicData.series"></apexchart>
       <apexchart type="bar" :options="graphicData.chartOptions" :series="graphicData.series"></apexchart>
@@ -109,4 +109,30 @@ ion-datetime-button{
 ion-datetime-button::part(native){
   width: 100%;
 }
+ion-modal#modal-datetime {
+    --width: fit-content;
+    --min-width: 250px;
+    --height: fit-content;
+    --border-radius: 6px;
+    --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+  }
+
+  ion-modal#modal-datetime h1 {
+    margin: 20px 20px 10px 20px;
+  }
+
+  ion-modal#modal-datetime ion-icon {
+    margin-right: 6px;
+
+    width: 48px;
+    height: 48px;
+
+    padding: 4px 0;
+
+    color: #aaaaaa;
+  }
+
+  ion-modal#modal-datetime .wrapper {
+    margin-bottom: 10px;
+  }
 </style>
