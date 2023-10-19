@@ -34,14 +34,14 @@ export default defineComponent({
 }
 
 .step-3{
-  width: 70px;
+  width: 80px;
 }
 
 .timeline-step-info {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 70px;
+  min-width: 80px;
 }
 
 .step-icon {

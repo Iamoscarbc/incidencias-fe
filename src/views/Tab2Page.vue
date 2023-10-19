@@ -5,18 +5,18 @@
         <ion-title>Reportes</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true" class="ion-padding">
+    <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">Reportes</ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-datetime-button datetime="datetime"></ion-datetime-button>
+      <ion-datetime-button class="ion-padding" datetime="datetime"></ion-datetime-button>
       <ion-modal id="modal-datetime" :keep-contents-mounted="true">
         <ion-datetime id="datetime" color="primary" presentation="month-year" :show-default-buttons="true" min="2022-12-31" max="2023-10-16" done-text="Filtrar" cancel-text="Cancelar"></ion-datetime>
       </ion-modal>
-      <apexchart type="bar" :options="graphicData.chartOptions" :series="graphicData.series"></apexchart>
-      <apexchart type="bar" :options="graphicData.chartOptions" :series="graphicData.series"></apexchart>
+      <apexchart class="ion-padding" type="bar" :options="graphicData.chartOptions" :series="graphicData.series"></apexchart>
+      <apexchart class="ion-padding" type="bar" :options="graphicData.chartOptions" :series="graphicData.series"></apexchart>
     </ion-content>
   </ion-page>
 </template>
@@ -103,9 +103,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-ion-datetime-button{
-  margin-bottom: 16px;
-}
 ion-datetime-button::part(native){
   width: 100%;
 }
