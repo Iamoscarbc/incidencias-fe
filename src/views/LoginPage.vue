@@ -4,7 +4,7 @@
       <div class="login-container">
         <ion-icon class="login-icon" :icon="personCircleOutline"></ion-icon>
         <h2 class="login-title">Iniciar Sesión</h2>
-        <ion-input v-model="dni" label-placement="floating" fill="outline" @input="updateFormValidity">
+        <ion-input v-model="dni" label-placement="floating" fill="outline" @input="updateFormValidity" type="number">
           <div slot="label">DNI</div>
         </ion-input>
         <ion-input v-model="password" label-placement="floating" fill="outline" @input="updateFormValidity" type="password">
