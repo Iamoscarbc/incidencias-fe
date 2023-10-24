@@ -4,7 +4,7 @@
       <div class="login-container">
         <ion-icon class="login-icon" :icon="personCircleOutline"></ion-icon>
         <h2 class="login-title">Iniciar Sesión</h2>
-        <ion-input v-model="dni" label-placement="floating" fill="outline" @input="updateFormValidity" type="number">
+        <ion-input v-model="docnumber" label-placement="floating" fill="outline" @input="updateFormValidity" type="number">
           <div slot="label">DNI</div>
         </ion-input>
         <ion-input v-model="password" label-placement="floating" fill="outline" @input="updateFormValidity" type="password">
@@ -21,6 +21,8 @@ import { IonButton, IonContent, IonIcon, IonInput, IonItem, IonList, IonPage } f
 import { defineComponent, ref } from 'vue';
 import { personCircleOutline } from 'ionicons/icons';
 import { useRoute, useRouter } from 'vue-router';
+import axios from "axios";
+import { useStore } from 'vuex';
 
 export default defineComponent({
   components: {
@@ -33,31 +35,54 @@ export default defineComponent({
     IonPage,
   },
   setup() {
+    const store = useStore();
     const router = useRouter(); // Obtiene la instancia del enrutador
     const route = useRoute(); // Obtiene la instancia de la ruta actual
-    const dni = ref('');
+    const docnumber = ref('');
     const password = ref('');
 
     const isFormValid = ref(false);
 
-    const login = () => {
-      // Agregar lógica de inicio de sesión aquí
+    const login = async () => {
       if (isFormValid.value) {
-        // Redirigir a la página principal o realizar otras acciones
-        router.replace({ name: 'Tab1' })
+        try {
+          let payload = {
+            docnumber: docnumber.value,
+            password: password.value
+          }
+          const res:any = await axios.post("/api/auth/login", payload)
+          const response = res.data
+          if(response.success){
+            localStorage.setItem("token", response.token)
+            const res2:any = await axios.get("/api/auth/user", {
+              headers: {
+                "Authorization": 'Bearer '+response.token
+              }
+            })
+            const response2 = res2.data
+            if(response2.success){
+              await store.dispatch('usuarios/login', response2.user)
+              router.replace({ name: 'Tab1' })
+            }
+          }
+        } catch (error) {
+          console.error("Error en la solicitud:", error);
+        }
       }
     };
 
     // Validación de formulario
-    const dniPattern = /^\d{8}$/;
+    const docnumberPattern = /^\d{8}$/;
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
     const updateFormValidity = () => {
-      isFormValid.value = dniPattern.test(dni.value) && passwordPattern.test(password.value);
+      isFormValid.value = docnumberPattern.test(docnumber.value) && passwordPattern.test(password.value);
     };
 
+    localStorage.removeItem("token")
+
     return {
-      dni,
+      docnumber,
       password,
       isFormValid,
       login,

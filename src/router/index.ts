@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import TabsPage from '../views/TabsPage.vue'
+import store from '@/store';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -15,6 +16,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/tabs/',
     component: TabsPage,
+    meta: { requiresAuth: true },
     children: [
       {
         path: '',
@@ -60,8 +62,22 @@ const routes: Array<RouteRecordRaw> = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  // Verifica si la ruta requiere autenticación y si el usuario está autenticado
+  if (to.meta.requiresAuth && !store.getters["usuarios/isAuthenticated"]) {
+    // Redirige al usuario a la página de inicio de sesión
+    next('/login');
+  } else if(to.name == 'Login' && !!store.getters["usuarios/isAuthenticated"]){
+    next('tabs')
+  }else {
+    console.log("from", from)
+    console.log("to", to)
+    next(); // Continúa la navegación
+  }
+});
 
 export default router
