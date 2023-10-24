@@ -1,27 +1,28 @@
 <template>
-    <ion-page>
-      <ion-header>
+  <ion-page>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Crear Incidencia</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content :fullscreen="true">
+      <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-buttons slot="start">
-            <ion-back-button></ion-back-button>
-          </ion-buttons>
-          <ion-title>Agregar Incidencia</ion-title>
+          <ion-title size="large">Crear Incidencia</ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-content :fullscreen="true">
-        <ion-header collapse="condense">
-          <ion-toolbar>
-            <ion-title size="large">Agregar Incidencia</ion-title>
-          </ion-toolbar>
-        </ion-header>
-      </ion-content>
-    </ion-page>
-  </template>
+      <AddViewIncidence :create="true"/>
+    </ion-content>
+  </ion-page>
+</template>
     
-  <script lang="ts">
+<script lang="ts">
   import { defineComponent } from 'vue';
+  import AddViewIncidence from '@/components/AddViewIncidence.vue'
   import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, IonCardHeader, IonCardContent, IonButtons, IonBackButton} from '@ionic/vue';
-  import { add } from 'ionicons/icons';
   export default defineComponent({
     components: {
       IonPage,
@@ -34,11 +35,12 @@
       IonCardHeader,
       IonCardContent,
       IonButtons,
-      IonBackButton
+      IonBackButton,
+      AddViewIncidence
     },
     setup() {
-      return { add };
+      
     }
   })
-  </script>
+</script>
     

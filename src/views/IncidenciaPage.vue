@@ -14,14 +14,15 @@
           <ion-title size="large">Incidencia #{{ $route.params.id }}</ion-title>
         </ion-toolbar>
       </ion-header>
+      <AddViewIncidence :create="false"/>
     </ion-content>
   </ion-page>
 </template>
   
 <script lang="ts">
 import { defineComponent } from 'vue';
+import AddViewIncidence from '@/components/AddViewIncidence.vue'
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, IonCardHeader, IonCardContent, IonButtons, IonBackButton} from '@ionic/vue';
-import { add } from 'ionicons/icons';
 export default defineComponent({
   components: {
     IonPage,
@@ -34,10 +35,10 @@ export default defineComponent({
     IonCardHeader,
     IonCardContent,
     IonButtons,
-    IonBackButton
+    IonBackButton,
+    AddViewIncidence
   },
   setup() {
-    return { add };
   }
 })
 </script>

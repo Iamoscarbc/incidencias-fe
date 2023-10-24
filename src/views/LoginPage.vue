@@ -44,7 +44,7 @@ export default defineComponent({
       // Agregar lógica de inicio de sesión aquí
       if (isFormValid.value) {
         // Redirigir a la página principal o realizar otras acciones
-        router.push({ name: 'Tab1' });
+        router.replace({ name: 'Tab1' })
       }
     };
 
