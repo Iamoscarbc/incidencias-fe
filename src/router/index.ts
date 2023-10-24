@@ -74,8 +74,6 @@ router.beforeEach((to, from, next) => {
   } else if(to.name == 'Login' && !!store.getters["usuarios/isAuthenticated"]){
     next('tabs')
   }else {
-    console.log("from", from)
-    console.log("to", to)
     next(); // Continúa la navegación
   }
 });
