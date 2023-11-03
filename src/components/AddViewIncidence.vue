@@ -38,6 +38,7 @@
         </div>
         <ion-button expand="full" @click="createIncidence()" v-if="!$route.params.id" :disabled="invalidForm">Crear Incidencia</ion-button>
         <ion-button expand="full" @click="updateIncidence()" v-if="form.timeline.length != 0 && !form.timeline[1].completed" :disabled="invalidFormUpdate">Actualizar Incidencia</ion-button>
+        <ion-button expand="full" color="danger" @click="finalizeIncidence()" v-if="user.idProfile._id == '653752a46f75ce25da5cb7dd' && (form.timeline.length != 0 && !form.timeline[2].completed)">Finalizar Incidencia</ion-button>
     </div>
 </template>
     
@@ -225,6 +226,19 @@ export default defineComponent({
             }
         }
 
+        const finalizeIncidence = async () => {
+            let token = localStorage.getItem("token")
+            const res:any = await axios.put("/api/finalize-incidence/"+route.params.id, {}, {
+                headers: {
+                    "Authorization": 'Bearer '+ token
+                }
+            })
+            const response = res.data
+            if(response.success){
+                router.back()
+            }
+        }
+
         return {
             listOfSpecialist,
             listOfCategories,
@@ -236,7 +250,8 @@ export default defineComponent({
             selectImage,
             deleteImage,
             createIncidence,
-            updateIncidence
+            updateIncidence,
+            finalizeIncidence
         }
     }
 })
