@@ -11,9 +11,9 @@
           <ion-title size="large">Incidencias</ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-card v-for="a in incidencias" @click="redirectDetail(a.id)">
+      <ion-card v-for="a in incidencias" @click="redirectDetail(a._id)">
         <ion-card-header>
-          <ion-card-title>Incidencia #{{ a.code }}</ion-card-title>
+          <ion-card-title>Incidencia #{{ a._id.substr(a._id.length-4,4) }}</ion-card-title>
         </ion-card-header>
 
         <ion-card-content>
@@ -30,7 +30,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import axios from 'axios'
+import { defineComponent, ref, onMounted } from 'vue';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, IonCardHeader, IonCardContent, IonIcon, IonFabButton, IonFab  } from '@ionic/vue';
 import Timeline from '@/components/Timeline.vue';
 import { add } from 'ionicons/icons';
@@ -53,62 +54,7 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter();
-    const incidencias = ref([
-      {
-        id: 1,
-        code: 1,
-        timeline: [
-          {
-            title: 'Registrada',
-            completed: true,
-          },
-          {
-            title: 'En revisión',
-            completed: false,
-          },
-          {
-            title: 'Finalizada',
-            completed: false,
-          },
-        ]
-      },
-      {
-        id: 2,
-        code: 2,
-        timeline: [
-          {
-            title: 'Registrada',
-            completed: true,
-          },
-          {
-            title: 'En revisión',
-            completed: true,
-          },
-          {
-            title: 'Finalizada',
-            completed: false,
-          },
-        ]
-      },
-      {
-        id: 3,
-        code: 3,
-        timeline: [
-          {
-            title: 'Registrada',
-            completed: true,
-          },
-          {
-            title: 'En revisión',
-            completed: true,
-          },
-          {
-            title: 'Finalizada',
-            completed: true,
-          },
-        ]
-      }
-    ]);
+    const incidencias = ref<any>([]);
 
     const redirectDetail = (id: any) => {
       router.push({ name: 'DetalleIncidencia', params: { id: id } })
@@ -117,6 +63,23 @@ export default defineComponent({
     const redirectAdd = () => {
       router.push({ name: 'AgregarIncidencia'})
     }
+
+    const getIncidences = async () => {
+      let token = localStorage.getItem("token")
+      const res:any = await axios.get("/api/incidences", {
+          headers: {
+              "Authorization": 'Bearer '+ token
+          }
+      })
+      const response = res.data
+      if(response.success){
+        incidencias.value = response.data
+      }
+    }
+
+    onMounted(() => {
+      getIncidences()
+    })
 
     return {
       incidencias,

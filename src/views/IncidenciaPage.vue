@@ -5,13 +5,13 @@
         <ion-buttons slot="start">
           <ion-back-button></ion-back-button>
         </ion-buttons>
-        <ion-title>Incidencia #{{ $route.params.id }}</ion-title>
+        <ion-title v-if="!!$route.params.id">Incidencia #{{ $route.params.id.substr($route.params.id.length-4,4) }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Incidencia #{{ $route.params.id }}</ion-title>
+          <ion-title size="large" v-if="!!$route.params.id">Incidencia #{{ $route.params.id.substr($route.params.id.length-4,4) }}</ion-title>
         </ion-toolbar>
       </ion-header>
       <AddViewIncidence :create="false"/>
