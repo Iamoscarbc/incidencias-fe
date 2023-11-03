@@ -31,7 +31,7 @@
                 </ion-button>
                 <template v-if="f.type == 'image/jpeg'">
                     <img :src="urlDocuments[i]" v-if="form.timeline.length != 0 && !form.timeline[1].completed">
-                    <img :src="'http://localhost:3000/api/files/'+$route.params.id+'/'+f.name">
+                    <img :src="'http://localhost:3000/api/files/'+$route.params.id+'/'+f.name" v-else>
                 </template>
                 <img src="@/assets/img/defaultPaymentSlip.png" v-else>
             </div>
@@ -116,6 +116,7 @@ export default defineComponent({
 
         const deleteImage = async (file, index) => {
             form.value.documents.splice(index, 1)
+            urlDocuments.value.splice(index, 1)
         }
 
         const updateDateTime = () => {
@@ -192,7 +193,7 @@ export default defineComponent({
                 })
                 const response = res.data
                 if(response.success){
-                    router.replace({ name: 'DetalleIncidencia', params: { id: 1 } })
+                    router.replace({ name: 'DetalleIncidencia', params: { id: response.data } })
                 }
             }else{
                 console.log("Completa el formulario")
@@ -217,7 +218,7 @@ export default defineComponent({
                 })
                 const response = res.data
                 if(response.success){
-                    console.log("response.data", response.data)
+                    router.back()
                 }
             }else{
                 console.log("Completa el formulario")

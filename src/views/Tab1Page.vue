@@ -11,7 +11,7 @@
           <ion-title size="large">Incidencias</ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-card v-for="a in incidencias" @click="redirectDetail(a._id)">
+      <ion-card v-for="a in incidences" @click="redirectDetail(a._id)">
         <ion-card-header>
           <ion-card-title>Incidencia #{{ a._id.substr(a._id.length-4,4) }}</ion-card-title>
         </ion-card-header>
@@ -52,9 +52,30 @@ export default defineComponent({
     IonFabButton,
     IonFab
   },
+  ionViewDidEnter() {
+    this.getIncidences()
+  },
+  data(){
+    return {
+      incidences: []
+    }
+  },
+  methods: {
+    async getIncidences () {
+      let token = localStorage.getItem("token")
+      const res:any = await axios.get("/api/incidences", {
+          headers: {
+              "Authorization": 'Bearer '+ token
+          }
+      })
+      const response = res.data
+      if(response.success){
+        this.incidences = response.data
+      }
+    }
+  },
   setup() {
     const router = useRouter();
-    const incidencias = ref<any>([]);
 
     const redirectDetail = (id: any) => {
       router.push({ name: 'DetalleIncidencia', params: { id: id } })
@@ -64,30 +85,11 @@ export default defineComponent({
       router.push({ name: 'AgregarIncidencia'})
     }
 
-    const getIncidences = async () => {
-      let token = localStorage.getItem("token")
-      const res:any = await axios.get("/api/incidences", {
-          headers: {
-              "Authorization": 'Bearer '+ token
-          }
-      })
-      const response = res.data
-      if(response.success){
-        incidencias.value = response.data
-      }
-    }
-
-    onMounted(() => {
-      getIncidences()
-    })
-
     return {
-      incidencias,
       redirectDetail,
       redirectAdd,
       add
     }
   }
-  // Resto del código de tu vista
 });
 </script>
