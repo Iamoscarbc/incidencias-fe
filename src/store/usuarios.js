@@ -16,6 +16,11 @@ const actions = {
     login({ commit }, data) {
         commit('LOGIN', data);
     },
+    logout({ commit }) {
+        localStorage.removeItem("token")
+        localStorage.removeItem("vuex")
+        commit('LOGOUT')
+    }
     // actualizarEmail({ commit }, nuevoEmail) {
     //     commit('SET_EMAIL', nuevoEmail);
     // },

@@ -15,6 +15,10 @@
           <ion-icon aria-hidden="true" :icon="people" />
           <ion-label>Usuarios</ion-label>
         </ion-tab-button>
+        <ion-tab-button tab="tab4" href="/tabs/tab4" @click="closeSession()">
+          <ion-icon aria-hidden="true" :icon="closeCircleOutline" />
+          <ion-label>Salir</ion-label>
+        </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
   </ion-page>
@@ -22,21 +26,31 @@
 
 <script lang="ts">
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
-import { barChart, addCircle, people } from 'ionicons/icons';
+import { barChart, addCircle, people, closeCircleOutline } from 'ionicons/icons';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 export default {
   components: {
     IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet
   },
   setup() {
+    const router = useRouter()
     const store = useStore();
-    const roles = computed(() => store.state.usuarios.user.idProfile.roles);
+    const roles = computed(() => {
+      if(!!store.state.usuarios.user){
+        return store.state.usuarios.user.idProfile.roles
+      }
+      return []
+    })
 
-    console.log("roles", roles)
+    const closeSession = async () => {
+      await store.dispatch('usuarios/logout')
+      router.replace({name: 'Login'})
+    }
 
-    return { roles, barChart, addCircle, people };
+    return { roles, barChart, addCircle, people, closeSession, closeCircleOutline };
   },
 };
 </script>

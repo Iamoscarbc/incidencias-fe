@@ -20,7 +20,7 @@
           <Timeline :steps="a.timeline"/>
         </ion-card-content>
       </ion-card>
-      <ion-fab slot="fixed" vertical="bottom" horizontal="end" @click="redirectAdd()" v-if="user.idProfile._id != '653752a46f75ce25da5cb7dd'">
+      <ion-fab slot="fixed" vertical="bottom" horizontal="end" @click="redirectAdd()" v-if="!!user && user.idProfile._id != '653752a46f75ce25da5cb7dd'">
         <ion-fab-button>
           <ion-icon :icon="add"></ion-icon>
         </ion-fab-button>
