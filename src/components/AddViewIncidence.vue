@@ -10,7 +10,7 @@
             interface="action-sheet">
             <ion-select-option :value="cat._id" v-for="cat in listOfCategories">{{ cat.name }}</ion-select-option>
         </ion-select>
-        <ion-select v-model="form.specialist" label="Especialista" label-placement="floating" fill="outline" v-if="!!$route.params.id && user.idProfile._id != '653752a46f75ce25da5cb7dd'" :disabled="form.timeline.length != 0 && !!form.timeline[1].completed"
+        <ion-select v-model="form.specialist" label="Especialista" label-placement="floating" fill="outline" v-if="!!$route.params.id" :disabled="(form.timeline.length != 0 && !!form.timeline[1].completed) || user.idProfile._id == '653752a46f75ce25da5cb7dd'"
             interface="action-sheet">
             <ion-select-option :value="cat._id" v-for="cat in listOfSpecialist">{{ cat.firstname }} {{ cat.lastname }}</ion-select-option>
         </ion-select>
