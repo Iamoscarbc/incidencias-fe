@@ -20,7 +20,7 @@
           <Timeline :steps="a.timeline"/>
         </ion-card-content>
       </ion-card>
-      <ion-fab slot="fixed" vertical="bottom" horizontal="end" @click="redirectAdd()">
+      <ion-fab slot="fixed" vertical="bottom" horizontal="end" @click="redirectAdd()" v-if="user.idProfile._id != '653752a46f75ce25da5cb7dd'">
         <ion-fab-button>
           <ion-icon :icon="add"></ion-icon>
         </ion-fab-button>
@@ -31,6 +31,7 @@
 
 <script lang="ts">
 import axios from 'axios'
+import { mapState } from 'vuex'
 import { defineComponent, ref, onMounted } from 'vue';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, IonCardHeader, IonCardContent, IonIcon, IonFabButton, IonFab  } from '@ionic/vue';
 import Timeline from '@/components/Timeline.vue';
@@ -54,6 +55,9 @@ export default defineComponent({
   },
   ionViewDidEnter() {
     this.getIncidences()
+  },
+  computed:{
+      ...mapState("usuarios",['user']),
   },
   data(){
     return {
