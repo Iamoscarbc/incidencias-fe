@@ -3,7 +3,7 @@
         <ion-input v-model="form.date" label-placement="floating" fill="outline" disabled>
             <div slot="label">Fecha y Hora</div>
         </ion-input>
-        <ion-input v-model="form.user.name" label-placement="floating" fill="outline" disabled>
+        <ion-input :value="(user.firstname + ' ' + user.lastname)" label-placement="floating" fill="outline" disabled>
             <div slot="label">Usuario Registrador</div>
         </ion-input>
         <ion-select v-model="form.categorie" label="Categoría" label-placement="floating" fill="outline"
@@ -12,7 +12,7 @@
         </ion-select>
         <ion-select v-model="form.specialist" label="Especialista" label-placement="floating" fill="outline"
             interface="action-sheet">
-            <ion-select-option :value="cat._id" v-for="cat in listOfSpecialist">{{ cat.name }}</ion-select-option>
+            <ion-select-option :value="cat._id" v-for="cat in listOfSpecialist">{{ cat.firstname }} {{ cat.lastname }}</ion-select-option>
         </ion-select>
         <ion-input v-model="form.documentNumber" label-placement="floating" fill="outline" type="number">
             <div slot="label">DNI Alumno</div>
@@ -31,14 +31,16 @@
                 <img :src="f.src">
             </div>
         </div>
-        <ion-button expand="full" @click="createIncidence()" v-if="!$route.params.id">Crear Incidencia</ion-button>
+        <ion-button expand="full" @click="createIncidence()" v-if="!$route.params.id" :disabled="invalidForm">Crear Incidencia</ion-button>
     </div>
 </template>
     
 <script lang="ts">
+import axios from "axios";
 import * as moment from 'moment-timezone';
-import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import { mapState } from 'vuex'
 import { Filesystem, Directory } from '@capacitor/filesystem';
+import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { isPlatform } from '@ionic/vue';
 import { defineComponent, ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -64,11 +66,19 @@ export default defineComponent({
         IonIcon,
         IonButton
     },
+    computed:{
+        ...mapState("usuarios",['user']),
+        invalidForm(){
+            return (!this.form.categorie || !this.form.specialist || !this.form.incidence || !this.form.documentNumber)
+        }
+    },
     setup() {
         const router = useRouter()
         const route = useRoute()
 
         const currentDateTime = ref<any>('')
+        const listOfSpecialist = ref<any>([])
+        const listOfCategories = ref<any>([])
         const form = ref<any>({
             date: !!route.params.id ? '23/10/2023 23:35:40' : currentDateTime,
             user: {
@@ -132,25 +142,61 @@ export default defineComponent({
         }
         
         onMounted(() => {
+            getSpecialist()
+            getCategories()
             if(!route.params.id){
                 updateDateTime();
                 setInterval(updateDateTime, 1000); // Actualiza cada segundo
             }
         })
 
+        const getSpecialist = async () => {
+            let token = localStorage.getItem("token")
+            const res:any = await axios.get("/api/userByProfile/653752a46f75ce25da5cb7dd", {
+                headers: {
+                    "Authorization": 'Bearer '+ token
+                }
+            })
+            const response = res.data
+            if(response.success){
+                listOfSpecialist.value = response.data
+            }
+        }
+
+        const getCategories = async () => {
+            let token = localStorage.getItem("token")
+            const res:any = await axios.get("/api/categories", {
+                headers: {
+                    "Authorization": 'Bearer '+ token
+                }
+            })
+            const response = res.data
+            if(response.success){
+                listOfCategories.value = response.data
+            }
+        }
+
         const createIncidence = async () => {
-            let { date, user, categorie, specialist, incidence, documentNumber } = form.value
+            let { date, categorie, specialist, incidence, documentNumber } = form.value
             if(!!categorie && !!specialist && !!incidence && !!documentNumber){
                 let payload = {
                     date,
-                    user: user._id,
                     categorie,
                     specialist,
                     incidence,
                     documentNumber
                 }
-                console.log("payload", payload)
-                router.replace({ name: 'DetalleIncidencia', params: { id: 1 } })
+                let token = localStorage.getItem("token")
+                const res:any = await axios.post("/api/incidences", payload, {
+                    headers: {
+                        "Authorization": 'Bearer '+ token
+                    }
+                })
+                const response = res.data
+                if(response.success){
+                    console.log("response.data", response.data)
+                    // router.replace({ name: 'DetalleIncidencia', params: { id: 1 } })
+                }
             }else{
                 console.log("Completa el formulario")
             }
@@ -161,14 +207,8 @@ export default defineComponent({
         }
 
         return {
-            listOfSpecialist: [{
-                _id: '12312312313',
-                name: 'Anthon Griezman'
-            }],
-            listOfCategories: [{
-                _id: '12312312313',
-                name: 'A2'
-            }],
+            listOfSpecialist,
+            listOfCategories,
             form,
             addCircleOutline,
             closeCircleOutline,
