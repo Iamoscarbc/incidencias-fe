@@ -38,7 +38,7 @@
         </div>
         <ion-button expand="full" @click="createIncidence()" v-if="!$route.params.id" :disabled="invalidForm">Crear Incidencia</ion-button>
         <ion-button expand="full" @click="updateIncidence()" v-if="form.timeline.length != 0 && !form.timeline[1].completed && user.idProfile._id != '653752a46f75ce25da5cb7dd'" :disabled="invalidFormUpdate">Actualizar Incidencia</ion-button>
-        <ion-button expand="full" color="danger" @click="finalizeIncidence()" v-if="user.idProfile._id == '653752a46f75ce25da5cb7dd' && (form.timeline.length != 0 && form.timeline[1].completed)">Finalizar Incidencia</ion-button>
+        <ion-button expand="full" color="danger" @click="finalizeIncidence()" v-if="user.idProfile._id == '653752a46f75ce25da5cb7dd' && (form.timeline.length != 0 && form.timeline[1].completed && !form.timeline[2].completed)">Finalizar Incidencia</ion-button>
     </div>
 </template>
     
