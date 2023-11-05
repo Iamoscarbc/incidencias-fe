@@ -6,6 +6,9 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
+      <ion-refresher slot="fixed" @ionRefresh="handleRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">Incidencias</ion-title>
@@ -33,7 +36,7 @@
 import axios from 'axios'
 import { mapState } from 'vuex'
 import { defineComponent, ref, onMounted } from 'vue';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, IonCardHeader, IonCardContent, IonIcon, IonFabButton, IonFab  } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, IonCardHeader, IonCardContent, IonIcon, IonFabButton, IonFab, IonRefresher, IonRefresherContent  } from '@ionic/vue';
 import Timeline from '@/components/Timeline.vue';
 import { add } from 'ionicons/icons';
 import { useRouter } from 'vue-router';
@@ -51,36 +54,17 @@ export default defineComponent({
     IonCardContent,
     IonIcon,
     IonFabButton,
-    IonFab
-  },
-  ionViewDidEnter() {
-    this.getIncidences()
+    IonFab,
+    IonRefresher,
+    IonRefresherContent
   },
   computed:{
       ...mapState("usuarios",['user']),
   },
-  data(){
-    return {
-      incidences: []
-    }
-  },
-  methods: {
-    async getIncidences () {
-      this.incidences = []
-      let token = localStorage.getItem("token")
-      const res:any = await axios.get("/api/incidences", {
-          headers: {
-              "Authorization": 'Bearer '+ token
-          }
-      })
-      const response = res.data
-      if(response.success){
-        this.incidences = response.data
-      }
-    }
-  },
   setup() {
     const router = useRouter();
+
+    let incidences = ref<any>([])
 
     const redirectDetail = (id: any) => {
       router.push({ name: 'DetalleIncidencia', params: { id: id } })
@@ -90,9 +74,34 @@ export default defineComponent({
       router.push({ name: 'AgregarIncidencia'})
     }
 
+    const getIncidences = async () => {
+      let token = localStorage.getItem("token")
+      const res:any = await axios.get("/api/incidences", {
+          headers: {
+              "Authorization": 'Bearer '+ token
+          }
+      })
+      const response = res.data
+      if(response.success){
+        incidences.value = response.data
+      }
+    }
+
+    const handleRefresh = async (event: any) => {
+      await getIncidences()
+      event.target.complete()
+    }
+
+    const ionViewDidEnter = () => {
+      getIncidences()
+    }
+
     return {
+      incidences,
       redirectDetail,
       redirectAdd,
+      handleRefresh,
+      ionViewDidEnter,
       add
     }
   }

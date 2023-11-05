@@ -6,6 +6,9 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
+      <ion-refresher slot="fixed" @ionRefresh="handleRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">Usuarios</ion-title>
@@ -47,7 +50,7 @@
 import axios from 'axios'
 import { defineComponent, ref } from 'vue';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, IonCardHeader, IonCardContent, IonIcon, IonFabButton,
-  IonFab, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonAlert } from '@ionic/vue';
+  IonFab, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonAlert, IonRefresher, IonRefresherContent } from '@ionic/vue';
 import Timeline from '@/components/Timeline.vue';
 import { add, personCircle } from 'ionicons/icons';
 import { useRouter } from 'vue-router';
@@ -70,7 +73,9 @@ export default defineComponent({
     IonItemOption,
     IonItemOptions,
     IonItemSliding,
-    IonAlert
+    IonAlert,
+    IonRefresher, 
+    IonRefresherContent
   },
   setup() {
     const router = useRouter();
@@ -132,6 +137,11 @@ export default defineComponent({
       }
     }
 
+    const handleRefresh = async (event: any) => {
+      await getUsers()
+      event.target.complete()
+    }
+
     const ionViewDidEnter = () => {
       getUsers()
     }
@@ -148,7 +158,8 @@ export default defineComponent({
       redirectAddUser,
       redirectEditUser,
       openDeleteAlert,
-      logResult
+      logResult,
+      handleRefresh
     }
   }
   // Resto del código de tu vista
