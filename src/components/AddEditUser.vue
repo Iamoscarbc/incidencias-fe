@@ -29,7 +29,6 @@
     
 <script lang="ts">
 import axios from "axios";
-import * as moment from 'moment-timezone';
 import { mapState } from 'vuex'
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
