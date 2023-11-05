@@ -4,7 +4,7 @@
       <div class="login-container">
         <ion-icon class="login-icon" :icon="personCircleOutline"></ion-icon>
         <h2 class="login-title">Iniciar Sesión</h2>
-        <ion-input v-model="docnumber" label-placement="floating" fill="outline" @input="updateFormValidity" type="number">
+        <ion-input v-model="docnumber" label-placement="floating" fill="outline" @input="updateFormValidity" type="number" @ionBlur="validateNumber(8)">
           <div slot="label">DNI</div>
         </ion-input>
         <ion-input v-model="password" label-placement="floating" fill="outline" @input="updateFormValidity" type="password">
@@ -77,7 +77,13 @@ export default defineComponent({
 
     const updateFormValidity = () => {
       isFormValid.value = docnumberPattern.test(docnumber.value) && passwordPattern.test(password.value);
-    };
+    }
+
+    const validateNumber = async (param) => {
+      if(docnumber.value.length > param){
+        docnumber.value = docnumber.value.substr(0,param)
+      }
+    }
 
     localStorage.removeItem("token")
 
@@ -87,7 +93,8 @@ export default defineComponent({
       isFormValid,
       login,
       updateFormValidity,
-      personCircleOutline, // Icono de ionicons
+      validateNumber,
+      personCircleOutline
     };
   },
 });

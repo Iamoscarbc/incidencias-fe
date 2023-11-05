@@ -12,7 +12,7 @@
         <ion-input v-model="form.phone" label-placement="floating" fill="outline" type="number" @ionBlur="validateNumber('phone',9)">
             <div slot="label">Celular</div>
         </ion-input>
-        <ion-input v-model="form.email" label-placement="floating" fill="outline" @ionBlur="validateEmail()">
+        <ion-input v-model="form.email" label-placement="floating" fill="outline">
             <div slot="label">Email</div>
         </ion-input>
         <ion-input v-model="form.password" label-placement="floating" fill="outline" type="password">
@@ -76,7 +76,7 @@ export default defineComponent({
         const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
         let loading = ref(true)
-        let profiles = ref([])
+        let profiles = ref<any>([])
         let form = ref({
             firstname: '',
             lastname: '',
@@ -161,10 +161,6 @@ export default defineComponent({
                 form.value[field] = form.value[field].substr(0,param)
             }
         }
-
-        const validateEmail = async (field, param) => {
-            
-        }
         
         return {
             addCircleOutline,
@@ -175,8 +171,7 @@ export default defineComponent({
             invalidForm,
             createUser,
             updateUser,
-            validateNumber,
-            validateEmail
+            validateNumber
         }
     }
 })
