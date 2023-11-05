@@ -14,12 +14,14 @@
             <ion-title size="large">Agregar Usuario</ion-title>
           </ion-toolbar>
         </ion-header>
+        <AddEditUser :create="true"/>
       </ion-content>
     </ion-page>
   </template>
     
   <script lang="ts">
   import { defineComponent } from 'vue';
+  import AddEditUser from '@/components/AddEditUser.vue'
   import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, IonCardHeader, IonCardContent, IonButtons, IonBackButton} from '@ionic/vue';
   import { add } from 'ionicons/icons';
   export default defineComponent({
@@ -34,7 +36,8 @@
       IonCardHeader,
       IonCardContent,
       IonButtons,
-      IonBackButton
+      IonBackButton,
+      AddEditUser
     },
     setup() {
       return { add };

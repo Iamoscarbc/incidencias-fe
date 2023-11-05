@@ -66,6 +66,7 @@ export default defineComponent({
   },
   methods: {
     async getIncidences () {
+      this.incidences = []
       let token = localStorage.getItem("token")
       const res:any = await axios.get("/api/incidences", {
           headers: {

@@ -10,11 +10,11 @@
             interface="action-sheet">
             <ion-select-option :value="cat._id" v-for="cat in listOfCategories">{{ cat.name }}</ion-select-option>
         </ion-select>
-        <ion-select v-model="form.specialist" label="Especialista" label-placement="floating" fill="outline" v-if="!!$route.params.id" :disabled="(form.timeline.length != 0 && !!form.timeline[1].completed) || user.idProfile._id == '653752a46f75ce25da5cb7dd'"
+        <ion-select v-model="form.specialist" label="Especialista" label-placement="floating" fill="outline" v-if="!!$route.params.id" :disabled="(form.timeline.length != 0 && !!form.timeline[2].completed)"
             interface="action-sheet">
             <ion-select-option :value="cat._id" v-for="cat in listOfSpecialist">{{ cat.firstname }} {{ cat.lastname }}</ion-select-option>
         </ion-select>
-        <ion-input v-model="form.documentNumber" label-placement="floating" fill="outline" type="number" :disabled="!!$route.params.id">
+        <ion-input v-model="form.documentNumber" label-placement="floating" fill="outline" type="number" :disabled="!!$route.params.id" @ionBlur="validateNumber('documentNumber',8)">
             <div slot="label">DNI Alumno</div>
         </ion-input>
         <ion-textarea v-model="form.description" label-placement="floating" fill="outline" auto-grow :disabled="!!$route.params.id">
@@ -37,7 +37,7 @@
             </div>
         </div>
         <ion-button expand="full" @click="createIncidence()" v-if="!$route.params.id" :disabled="invalidForm">Crear Incidencia</ion-button>
-        <ion-button expand="full" @click="updateIncidence()" v-if="form.timeline.length != 0 && !form.timeline[1].completed && user.idProfile._id != '653752a46f75ce25da5cb7dd'" :disabled="invalidFormUpdate">Actualizar Incidencia</ion-button>
+        <ion-button expand="full" @click="updateIncidence()" v-if="form.timeline.length != 0 && !form.timeline[2].completed" :disabled="invalidFormUpdate">Actualizar Incidencia</ion-button>
         <ion-button expand="full" color="danger" @click="finalizeIncidence()" v-if="user.idProfile._id == '653752a46f75ce25da5cb7dd' && (form.timeline.length != 0 && form.timeline[1].completed && !form.timeline[2].completed)">Finalizar Incidencia</ion-button>
     </div>
 </template>
@@ -76,7 +76,7 @@ export default defineComponent({
     computed:{
         ...mapState("usuarios",['user']),
         invalidForm(){
-            return (!this.form.categorie || !this.form.description || !this.form.documentNumber)
+            return (!this.form.categorie || !this.form.description || !this.form.documentNumber || this.form.documentNumber.length != 8)
         },
         invalidFormUpdate(){
             return (!this.form.specialist || this.form.documents.length == 0)
@@ -203,7 +203,7 @@ export default defineComponent({
 
         const updateIncidence = async () => {
             let { specialist, documents } = form.value
-            if(!!specialist && !!documents){
+            if(!!specialist || !!documents){
                 var formData = new FormData();
                 for (let i = 0; i < documents.length; i++) {
                     const d = documents[i];
@@ -239,6 +239,12 @@ export default defineComponent({
             }
         }
 
+        const validateNumber = async (field, param) => {
+            if(form.value[field].length > param){
+                form.value[field] = form.value[field].substr(0,param)
+            }
+        }
+
         return {
             listOfSpecialist,
             listOfCategories,
@@ -251,7 +257,8 @@ export default defineComponent({
             deleteImage,
             createIncidence,
             updateIncidence,
-            finalizeIncidence
+            finalizeIncidence,
+            validateNumber
         }
     }
 })
