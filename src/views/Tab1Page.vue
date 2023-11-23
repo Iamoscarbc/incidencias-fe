@@ -37,7 +37,7 @@ import axios from 'axios'
 import { mapState } from 'vuex'
 import { defineComponent, ref, onMounted } from 'vue';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, IonCardHeader, IonCardContent, IonIcon, IonFabButton, IonFab, IonRefresher, IonRefresherContent  } from '@ionic/vue';
-import Timeline from '@/components/Timeline.vue';
+import Timeline from '@/components/TimeLine.vue';
 import { add } from 'ionicons/icons';
 import { useRouter } from 'vue-router';
 export default defineComponent({
