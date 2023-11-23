@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "build": "vue-tsc && vite build",
     "build:client": "vue-tsc && vite build --outDir dist/client",
     "build:server": "vue-tsc && vite build --outDir dist/server --ssr server.js",
     "deploy": "pm2 start ecosystem.config.cjs --env production",

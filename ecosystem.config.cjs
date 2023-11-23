@@ -1,13 +1,12 @@
 module.exports = {
   apps: [
     {
-      name: `incidences-fe`,
+      name: 'incidences-fe',
       exec_mode: 'cluster',
       instances: 'max', // Or a number of instances
-      script: "serve",
+      script: 'ruta-a-tu-app/dist/main.js',
+      watch: true,
       env: {
-        PM2_SERVE_PATH: "./dist",
-        PM2_SERVE_PORT: 3003,
         NODE_ENV: 'production',
       },
     },
