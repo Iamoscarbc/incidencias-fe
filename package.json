@@ -7,7 +7,7 @@
     "dev": "vite",
     "build:client": "vue-tsc && vite build --outDir dist/client",
     "build:server": "vue-tsc && vite build --outDir dist/server --ssr src/server.js",
-    "deploy": "build:client && build:server && pm2 start ecosystem.config.cjs --env production",
+    "deploy": "pm2 start ecosystem.config.cjs --env production",
     "preview": "vite preview",
     "test:e2e": "cypress run",
     "test:unit": "vitest",
