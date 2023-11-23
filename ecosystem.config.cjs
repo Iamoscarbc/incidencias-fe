@@ -4,7 +4,7 @@ module.exports = {
       name: `incidences-fe`,
       exec_mode: 'cluster',
       instances: 'max', // Or a number of instances
-      script: "preview",
+      script: "serve",
       env: {
         PM2_SERVE_PATH: "./dist",
         PM2_SERVE_PORT: 3003,
