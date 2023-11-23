@@ -31,7 +31,7 @@
                 </ion-button>
                 <template v-if="f.type == 'image/jpeg'">
                     <img :src="urlDocuments[i]" v-if="form.timeline.length != 0 && !form.timeline[1].completed">
-                    <img :src="'http://localhost:3000/api/files/'+$route.params.id+'/'+f.name" v-else>
+                    <img :src="'http://206.189.176.12:3002/api/files/'+$route.params.id+'/'+f.name" v-else>
                 </template>
                 <img src="@/assets/img/defaultPaymentSlip.png" v-else>
             </div>
