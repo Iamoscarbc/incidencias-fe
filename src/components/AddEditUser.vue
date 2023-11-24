@@ -89,7 +89,7 @@ export default defineComponent({
 
         const getOneUser = async () => {
             let token = localStorage.getItem("token")
-            const res:any = await axios.get("/api/user/"+route.params.id, {
+            const res:any = await axios.get("http://206.189.176.12:3002/api/user/"+route.params.id, {
                 headers: {
                     "Authorization": 'Bearer '+ token
                 }
@@ -102,7 +102,7 @@ export default defineComponent({
 
         const getProfiles = async () => {
             let token = localStorage.getItem("token")
-            const res:any = await axios.get("/api/profiles/", {
+            const res:any = await axios.get("http://206.189.176.12:3002/api/profiles/", {
                 headers: {
                     "Authorization": 'Bearer '+ token
                 }
@@ -126,7 +126,7 @@ export default defineComponent({
             if(!invalidForm.value){
                 let token = localStorage.getItem("token")
                 let payload = form.value
-                const res:any = await axios.post("/api/user", payload, {
+                const res:any = await axios.post("http://206.189.176.12:3002/api/user", payload, {
                     headers: {
                         "Authorization": 'Bearer '+ token
                     }
@@ -142,7 +142,7 @@ export default defineComponent({
             if(!invalidForm.value){
                 let token = localStorage.getItem("token")
                 let payload = form.value
-                const res:any = await axios.put("/api/user/"+route.params.id, payload, {
+                const res:any = await axios.put("http://206.189.176.12:3002/api/user/"+route.params.id, payload, {
                     headers: {
                         "Authorization": 'Bearer '+ token
                     }

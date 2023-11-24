@@ -50,11 +50,11 @@ export default defineComponent({
             docnumber: docnumber.value,
             password: password.value
           }
-          const res:any = await axios.post("/api/auth/login", payload)
+          const res:any = await axios.post("http://206.189.176.12:3002/api/auth/login", payload)
           const response = res.data
           if(response.success){
             localStorage.setItem("token", response.token)
-            const res2:any = await axios.get("/api/auth/user", {
+            const res2:any = await axios.get("http://206.189.176.12:3002/api/auth/user", {
               headers: {
                 "Authorization": 'Bearer '+response.token
               }

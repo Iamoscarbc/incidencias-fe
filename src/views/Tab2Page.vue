@@ -218,7 +218,7 @@ export default defineComponent({
       loading.value = true
       try {
         let token = localStorage.getItem("token")
-        const res:any = await axios.get("/api/indicators/"+period, {
+        const res:any = await axios.get("http://206.189.176.12:3002/api/indicators/"+period, {
           headers: {
             "Authorization": 'Bearer '+ token
           }

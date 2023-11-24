@@ -140,7 +140,7 @@ export default defineComponent({
 
         const getSpecialist = async () => {
             let token = localStorage.getItem("token")
-            const res:any = await axios.get("/api/userByProfile/653752a46f75ce25da5cb7dd", {
+            const res:any = await axios.get("http://206.189.176.12:3002/api/userByProfile/653752a46f75ce25da5cb7dd", {
                 headers: {
                     "Authorization": 'Bearer '+ token
                 }
@@ -153,7 +153,7 @@ export default defineComponent({
 
         const getCategories = async () => {
             let token = localStorage.getItem("token")
-            const res:any = await axios.get("/api/categories", {
+            const res:any = await axios.get("http://206.189.176.12:3002/api/categories", {
                 headers: {
                     "Authorization": 'Bearer '+ token
                 }
@@ -166,7 +166,7 @@ export default defineComponent({
 
         const getOneIncidence = async (id) => {
             let token = localStorage.getItem("token")
-            const res:any = await axios.get("/api/incidence/"+id, {
+            const res:any = await axios.get("http://206.189.176.12:3002/api/incidence/"+id, {
                 headers: {
                     "Authorization": 'Bearer '+ token
                 }
@@ -187,7 +187,7 @@ export default defineComponent({
                     documentNumber
                 }
                 let token = localStorage.getItem("token")
-                const res:any = await axios.post("/api/incidences", payload, {
+                const res:any = await axios.post("http://206.189.176.12:3002/api/incidences", payload, {
                     headers: {
                         "Authorization": 'Bearer '+ token
                     }
@@ -211,7 +211,7 @@ export default defineComponent({
                 }
                 formData.append("specialist", specialist)
                 let token = localStorage.getItem("token")
-                const res:any = await axios.put("/api/incidence/"+route.params.id, formData, {
+                const res:any = await axios.put("http://206.189.176.12:3002/api/incidence/"+route.params.id, formData, {
                     headers: {
                         "Authorization": 'Bearer '+ token,
                         'Content-Type': 'multipart/form-data'
@@ -228,7 +228,7 @@ export default defineComponent({
 
         const finalizeIncidence = async () => {
             let token = localStorage.getItem("token")
-            const res:any = await axios.put("/api/finalize-incidence/"+route.params.id, {}, {
+            const res:any = await axios.put("http://206.189.176.12:3002/api/finalize-incidence/"+route.params.id, {}, {
                 headers: {
                     "Authorization": 'Bearer '+ token
                 }

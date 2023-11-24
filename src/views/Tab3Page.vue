@@ -111,7 +111,7 @@ export default defineComponent({
       isOpen.value = false
       if(ev.detail.role){
         let token = localStorage.getItem("token")
-        const res:any = await axios.delete("/api/user/"+idForDelete.value, {
+        const res:any = await axios.delete("http://206.189.176.12:3002/api/user/"+idForDelete.value, {
             headers: {
                 "Authorization": 'Bearer '+ token
             }
@@ -126,7 +126,7 @@ export default defineComponent({
 
     const getUsers = async () => {
       let token = localStorage.getItem("token")
-      const res:any = await axios.get("/api/users", {
+      const res:any = await axios.get("http://206.189.176.12:3002/api/users", {
           headers: {
               "Authorization": 'Bearer '+ token
           }
