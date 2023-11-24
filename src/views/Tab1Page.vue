@@ -76,7 +76,7 @@ export default defineComponent({
 
     const getIncidences = async () => {
       let token = localStorage.getItem("token")
-      const res:any = await axios.get("http://206.189.176.12:3002/api/incidences", {
+      const res:any = await axios.get("/api/incidences", {
           headers: {
               "Authorization": 'Bearer '+ token
           }
