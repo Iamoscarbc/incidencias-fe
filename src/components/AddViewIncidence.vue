@@ -14,9 +14,9 @@
             interface="action-sheet">
             <ion-select-option :value="cat._id" v-for="cat in listOfSpecialist">{{ cat.firstname }} {{ cat.lastname }}</ion-select-option>
         </ion-select>
-        <ion-input v-model="form.documentNumber" label-placement="floating" fill="outline" type="number" :disabled="!!$route.params.id" @ionBlur="validateNumber('documentNumber',8)">
-            <div slot="label">DNI Alumno</div>
-        </ion-input>
+        <ion-select v-model="form.idStudent" label="Alumno" label-placement="floating" fill="outline" interface="action-sheet" :disabled="!!$route.params.id">
+            <ion-select-option :value="cat._id" v-for="cat in listOfStudent">{{ cat.names }} - {{ cat.year_section }} - {{ cat.nivel }} - {{ cat.dni }}</ion-select-option>
+        </ion-select>
         <ion-textarea v-model="form.description" label-placement="floating" fill="outline" auto-grow :disabled="!!$route.params.id">
             <div slot="label">Incidencia</div>
         </ion-textarea>
@@ -31,7 +31,7 @@
                 </ion-button>
                 <template v-if="f.type == 'image/jpeg'">
                     <img :src="urlDocuments[i]" v-if="form.timeline.length != 0 && !form.timeline[1].completed">
-                    <img :src="'http://206.189.176.12:3002/api/files/'+$route.params.id+'/'+f.name" v-else>
+                    <img :src="'http://localhost:3002/api/files/'+$route.params.id+'/'+f.name" v-else>
                 </template>
                 <img src="@/assets/img/defaultPaymentSlip.png" v-else>
             </div>
@@ -76,7 +76,7 @@ export default defineComponent({
     computed:{
         ...mapState("usuarios",['user']),
         invalidForm(){
-            return (!this.form.categorie || !this.form.description || !this.form.documentNumber || this.form.documentNumber.length != 8)
+            return (!this.form.categorie || !this.form.description || !this.form.idStudent)
         },
         invalidFormUpdate(){
             return (!this.form.specialist || this.form.documents.length == 0)
@@ -94,13 +94,14 @@ export default defineComponent({
         const currentDateTime = ref<any>('')
         const loading = ref<any>('')
         const listOfSpecialist = ref<any>([])
+        const listOfStudent = ref<any>([])
         const listOfCategories = ref<any>([])
         const form = ref<any>({
             date: !!route.params.id ? '23/10/2023 23:35:40' : currentDateTime,
             categorie: null,
             specialist: null,
             description: null,
-            documentNumber: null,
+            idStudent: null,
             documents: [],
             timeline: []
         })
@@ -128,6 +129,7 @@ export default defineComponent({
         onMounted( async () => {
             loading.value = true
             await getSpecialist()
+            await getStudents()
             await getCategories()
             if(!route.params.id){
                 await updateDateTime();
@@ -148,6 +150,19 @@ export default defineComponent({
             const response = res.data
             if(response.success){
                 listOfSpecialist.value = response.data
+            }
+        }
+
+        const getStudents = async () => {
+            let token = localStorage.getItem("token")
+            const res:any = await axios.get("/api/students", {
+                headers: {
+                    "Authorization": 'Bearer '+ token
+                }
+            })
+            const response = res.data
+            if(response.success){
+                listOfStudent.value = response.data
             }
         }
 
@@ -178,13 +193,13 @@ export default defineComponent({
         }
 
         const createIncidence = async () => {
-            let { date, categorie, description, documentNumber } = form.value
-            if(!!categorie && !!description && !!documentNumber){
+            let { date, categorie, description, idStudent } = form.value
+            if(!!categorie && !!description && !!idStudent){
                 let payload = {
                     date,
                     categorie,
                     description,
-                    documentNumber
+                    idStudent
                 }
                 let token = localStorage.getItem("token")
                 const res:any = await axios.post("/api/incidences", payload, {
@@ -247,6 +262,7 @@ export default defineComponent({
 
         return {
             listOfSpecialist,
+            listOfStudent,
             listOfCategories,
             form,
             addCircleOutline,
